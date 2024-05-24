@@ -42,7 +42,7 @@ The following endpoints are available:
 - Application should run in docker container -> Completed
 - JWT authentication -> Missing
 - Provide configs for 2 envs -> Completed
-- Add instrumentation to your code -> Missing
+- Add instrumentation to your code -> Completed
 
 ## How to Run
 ### Prerequisites
@@ -53,14 +53,14 @@ The following endpoints are available:
 
 1- clone the repository
 ```
-git clone https://github.com/your-repo/inventory-api.git
+git clone https://github.com/beshoyabdelmalak/inventory-api
 cd inventory-api
 ```
 
 ### Running with Docker Compose
 
-Run `docker-compose up`, this should bring up two services one for the API,
-and one for the postgres database
+Run `docker-compose up`, this should bring up three services one for the API,
+one for the postgres database and one for zipkin to display application traces.
 
 ### Running Locally
 
@@ -118,3 +118,7 @@ Performance:
 
 - Optimize queries and use indexes where necessary.
 - Implement caching using solutions like Redis or Memcached to reduce database load.
+
+Documentation:
+
+- Document the API using OpenAPI Specification

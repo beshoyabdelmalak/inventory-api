@@ -13,8 +13,10 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
       - SPRING_PROFILES_ACTIVE=dev
+      - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://zipkin:9411/api/v2/spans
     depends_on:
       - db
+      - zipkin
   db:
     image: 'postgres:latest'
     volumes:
@@ -26,6 +28,11 @@ services:
     ports:
       - '5432:5432'
     restart: always
+
+  zipkin:
+    image: 'openzipkin/zipkin'
+    ports:
+      - '9411:9411'
 
 volumes:
   db-data:
