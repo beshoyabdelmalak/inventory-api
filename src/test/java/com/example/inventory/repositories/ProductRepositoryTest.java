@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,13 +23,13 @@ class ProductRepositoryTest {
         Product product1 = Product.builder()
                 .name("Macbook Pro")
                 .brand("Apple")
-                .price(1099.00)
+                .price(BigDecimal.valueOf(1099.00))
                 .quantity(120).build();
 
         Product product2 = Product.builder()
                 .name("Airpods 2")
                 .brand("Apple")
-                .price(960.00)
+                .price(BigDecimal.valueOf(960.00))
                 .quantity(23).build();
 
         productRepository.save(product1);
@@ -50,7 +51,7 @@ class ProductRepositoryTest {
         Product product = Product.builder()
                 .name("Macbook Pro")
                 .brand("Apple")
-                .price(1099.00)
+                .price(BigDecimal.valueOf(1099.00))
                 .quantity(120).build();
 
         product = productRepository.save(product);
@@ -72,7 +73,7 @@ class ProductRepositoryTest {
         Product product = Product.builder()
                 .name("Macbook Pro")
                 .brand("Apple")
-                .price(1099.00)
+                .price(BigDecimal.valueOf(1099.00))
                 .quantity(120).build();
 
         product = productRepository.save(product);
@@ -89,13 +90,13 @@ class ProductRepositoryTest {
         Product product1 = Product.builder()
                 .name("Macbook Pro")
                 .brand("Apple")
-                .price(1099.00)
+                .price(BigDecimal.valueOf(1099.00))
                 .quantity(120).build();
 
         Product product2 = Product.builder()
                 .name("Airpods 2")
                 .brand("Apple")
-                .price(960.00)
+                .price(BigDecimal.valueOf(960.00))
                 .quantity(23).build();
 
         productRepository.save(product1);
@@ -112,12 +113,12 @@ class ProductRepositoryTest {
         Product product = Product.builder()
                 .name("Macbook Pro")
                 .brand("Apple")
-                .price(1099.00)
+                .price(BigDecimal.valueOf(1099.00))
                 .quantity(120).build();
 
         productRepository.save(product);
 
-        product.setPrice(300);
+        product.setPrice(BigDecimal.valueOf(300));
         product.setQuantity(118);
         productRepository.save(product);
 
@@ -131,13 +132,13 @@ class ProductRepositoryTest {
         Product product1 = Product.builder()
                 .name("Macbook Pro")
                 .brand("Apple")
-                .price(1099.00)
+                .price(BigDecimal.valueOf(1099.00))
                 .quantity(120).build();
 
         Product product2 = Product.builder()
                 .name("Airpods 2")
                 .brand("Apple")
-                .price(960.00)
+                .price(BigDecimal.valueOf(960.00))
                 .quantity(19).build();
 
         productRepository.save(product1);

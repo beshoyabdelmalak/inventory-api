@@ -13,12 +13,12 @@ import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -41,13 +41,13 @@ class ProductControllerTest {
         Product product1 = Product.builder()
                 .name("Macbook Pro")
                 .brand("Apple")
-                .price(1099.00)
+                .price(BigDecimal.valueOf(1099.00))
                 .quantity(120).build();
 
         Product product2 = Product.builder()
                 .name("Airpods 2")
                 .brand("Apple")
-                .price(960.00)
+                .price(BigDecimal.valueOf(960.00))
                 .quantity(23).build();
 
         Mockito.when(productService.getAllProducts()).thenReturn(Arrays.asList(product1, product2));
@@ -57,11 +57,11 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].name", is(product1.getName())))
                 .andExpect(jsonPath("$[0].brand", is(product1.getBrand())))
-                .andExpect(jsonPath("$[0].price", is(product1.getPrice())))
+                .andExpect(jsonPath("$[0].price", equalTo(1099.00)))
                 .andExpect(jsonPath("$[0].quantity", is(product1.getQuantity())))
                 .andExpect(jsonPath("$[1].name", is(product2.getName())))
                 .andExpect(jsonPath("$[1].brand", is(product2.getBrand())))
-                .andExpect(jsonPath("$[1].price", is(product2.getPrice())))
+                .andExpect(jsonPath("$[1].price", equalTo(960.00)))
                 .andExpect(jsonPath("$[1].quantity", is(product2.getQuantity())));
     }
 
@@ -78,7 +78,7 @@ class ProductControllerTest {
         Product product = Product.builder()
                 .name("Macbook Pro")
                 .brand("Apple")
-                .price(1099.00)
+                .price(BigDecimal.valueOf(1099.00))
                 .quantity(120).build();
 
         Mockito.when(productService.getProductById(1L)).thenReturn(Optional.of(product));
@@ -87,7 +87,7 @@ class ProductControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", is(product.getName())))
                 .andExpect(jsonPath("$.brand", is(product.getBrand())))
-                .andExpect(jsonPath("$.price", is(product.getPrice())))
+                .andExpect(jsonPath("$.price", equalTo(1099.00)))
                 .andExpect(jsonPath("$.quantity", is(product.getQuantity())));
     }
 
@@ -97,7 +97,7 @@ class ProductControllerTest {
         Product product = Product.builder()
                 .name("Macbook Pro")
                 .brand("Apple")
-                .price(1099.00)
+                .price(BigDecimal.valueOf(1099.00))
                 .quantity(120).build();
 
         Mockito.when(productService.getProductById(1L)).thenReturn(Optional.of(product));
@@ -112,7 +112,7 @@ class ProductControllerTest {
         Product product = Product.builder()
                 .name("Macbook Pro")
                 .brand("Apple")
-                .price(1099.00)
+                .price(BigDecimal.valueOf(1099.00))
                 .quantity(120).build();
 
         Mockito.when(productService.saveProduct(Mockito.any(Product.class))).thenReturn(product);
@@ -124,8 +124,26 @@ class ProductControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name", is(product.getName())))
                 .andExpect(jsonPath("$.brand", is(product.getBrand())))
-                .andExpect(jsonPath("$.price", is(product.getPrice())))
+                .andExpect(jsonPath("$.price", equalTo(1099.00)))
                 .andExpect(jsonPath("$.quantity", is(product.getQuantity())));
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    public void createProductInvalid() throws Exception {
+        Product product = Product.builder()
+                .name("")
+                .brand("Apple")
+                .price(BigDecimal.valueOf(-1099.00)).build();
+
+        mockMvc.perform(post("/api/v1/products")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(product))
+                        .with(csrf()))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.name").value("Product Name should be set"))
+                .andExpect(jsonPath("$.quantity").value("Product quantity should be set"))
+                .andExpect(jsonPath("$.price").value("Price can't have a negative value"));
     }
 
     @Test
@@ -134,7 +152,7 @@ class ProductControllerTest {
         Product product = Product.builder()
                 .name("Macbook Pro")
                 .brand("Apple")
-                .price(1099.00)
+                .price(BigDecimal.valueOf(1099.00))
                 .quantity(120).build();
 
         Mockito.when(productService.saveProduct(Mockito.any(Product.class))).thenReturn(product);
@@ -151,7 +169,7 @@ class ProductControllerTest {
         Product product = Product.builder()
                 .name("Macbook Pro")
                 .brand("Apple")
-                .price(1099.00)
+                .price(BigDecimal.valueOf(1099.00))
                 .quantity(120).build();
 
         Mockito.when(productService.saveProduct(Mockito.any(Product.class))).thenReturn(product);
@@ -169,7 +187,7 @@ class ProductControllerTest {
         Product product = Product.builder()
                 .name("Macbook Pro")
                 .brand("Apple")
-                .price(1099.00)
+                .price(BigDecimal.valueOf(1099.00))
                 .quantity(120).build();
 
         Mockito.when(productService.getProductById(1L)).thenReturn(Optional.of(product));
@@ -184,7 +202,7 @@ class ProductControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", is(product.getName())))
                 .andExpect(jsonPath("$.brand", is(product.getBrand())))
-                .andExpect(jsonPath("$.price", is(product.getPrice())))
+                .andExpect(jsonPath("$.price", equalTo(1099.00)))
                 .andExpect(jsonPath("$.quantity", is(product.getQuantity())));
     }
 
@@ -204,7 +222,7 @@ class ProductControllerTest {
         Product product = Product.builder()
                 .name("Macbook Pro")
                 .brand("Apple")
-                .price(1099.00)
+                .price(BigDecimal.valueOf(1099.00))
                 .quantity(120).build();
 
         Mockito.when(productService.searchProducts("macbook")).thenReturn(List.of(product));
@@ -214,7 +232,7 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].name", is(product.getName())))
                 .andExpect(jsonPath("$[0].brand", is(product.getBrand())))
-                .andExpect(jsonPath("$[0].price", is(product.getPrice())))
+                .andExpect(jsonPath("$[0].price", equalTo(1099.00)))
                 .andExpect(jsonPath("$[0].quantity", is(product.getQuantity())));
     }
 
@@ -224,7 +242,7 @@ class ProductControllerTest {
         Product product = Product.builder()
                 .name("Airpods 2")
                 .brand("Apple")
-                .price(960.00)
+                .price(BigDecimal.valueOf(960.00))
                 .quantity(3).build();
 
         Mockito.when(productService.getLeftoverProducts()).thenReturn(List.of(product));
@@ -234,7 +252,7 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].name", is(product.getName())))
                 .andExpect(jsonPath("$[0].brand", is(product.getBrand())))
-                .andExpect(jsonPath("$[0].price", is(product.getPrice())))
+                .andExpect(jsonPath("$[0].price", equalTo(960.00)))
                 .andExpect(jsonPath("$[0].quantity", is(product.getQuantity())));
     }
 }

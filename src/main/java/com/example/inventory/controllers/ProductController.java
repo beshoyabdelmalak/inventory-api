@@ -2,6 +2,7 @@ package com.example.inventory.controllers;
 
 import com.example.inventory.models.Product;
 import com.example.inventory.services.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +36,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+    public ResponseEntity<Product> createProduct(@Valid @RequestBody Product product) {
         Product createdProduct = productService.saveProduct(product);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
     }

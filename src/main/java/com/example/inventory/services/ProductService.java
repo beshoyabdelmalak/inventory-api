@@ -35,6 +35,7 @@ public class ProductService {
     }
 
     public List<Product> getLeftoverProducts() {
-        return productRepository.findByQuantityLessThan(5);
+        int LEFTOVER_PRODUCT_QUANTITY_THRESHOLD = 5;
+        return productRepository.findByQuantityLessThan(LEFTOVER_PRODUCT_QUANTITY_THRESHOLD);
     }
 }
