@@ -26,6 +26,22 @@ The following endpoints are available:
 
 `GET /api/v1/products/search?query={query}`: Search for products by name or brand.
 
+`GET /api/v1/products/leftovers`: Retrieve products with quantity less than 5.
+
+## Tasks
+
+- Enter new product -> Completed
+- Find product by name/brand -> Completed
+- Update/remove product -> Completed
+- See all leftovers -> Completed
+- There should be two users - admin (can create, add, remove) and user with read-only access -> Completed
+- Additional endpoint to buy a product -> Missing
+- Infrastructure Diagram on AWS -> Completed
+- Application should run in docker container -> Completed
+- JWT authentication -> Missing
+- Provide configs for 2 envs -> Completed
+- Add instrumentation to your code -> Missing
+
 ## How to Run
 ### Prerequisites
 - Java 17
