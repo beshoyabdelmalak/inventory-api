@@ -9,7 +9,7 @@ for products by name or brand.
 
 ## Assumptions
 1- There is no unique constraint on the brand and the name of the product
-as it can be identical products with different prices or other distinguish metadata
+as there can be identical products with different prices or other distinguish metadata
 
 ## API Endpoints
 The following endpoints are available:
@@ -65,7 +65,9 @@ one for the postgres database and one for zipkin to display application traces.
 ### Running Locally
 
 1- Ensure PostgreSQL is running locally.
+
 2- Configure your local database connection in src/main/resources/application-dev.properties
+
 3- Run the application with `./mvnw spring-boot:run`
 
 The application will be accessible at http://localhost:8080.
@@ -80,7 +82,7 @@ update and delete rights with username = `admin` and password= `admin`
 
 And a normal user with read-only rights with username= `user` and password = `password`
 
-This not a production-ready authentication, we should have a users table 
+This is not a production-ready authentication, we should have a users table 
 in the database and registration/authentication endpoints. And we can have more
 secure mechanism in place like OAuth.
 
