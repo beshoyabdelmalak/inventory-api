@@ -28,6 +28,8 @@ The following endpoints are available:
 
 `GET /api/v1/products/leftovers`: Retrieve products with quantity less than 5.
 
+`GET /actuator`: Exposes application metrics.
+
 ## Tasks
 
 - Enter new product -> Completed
